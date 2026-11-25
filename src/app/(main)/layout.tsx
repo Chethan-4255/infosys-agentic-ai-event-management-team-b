@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Navbar from "../../components/layout/Navbar";
 import Sidebar from "../../components/layout/Sidebar";
-
 
 export default function MainLayout({
   children,
@@ -14,13 +13,11 @@ export default function MainLayout({
 
   return (
     <div className="flex min-h-screen flex-col bg-slate-50">
-      {/* Top Navbar */}
       <Navbar onMenuClick={() => setSidebarOpen(true)} />
-
-      {/* Body: Left Sidebar + Right Dynamic Page Content */}
       <div className="flex flex-1">
-        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-
+        <Suspense fallback={<aside className="hidden w-64 border-r border-slate-200 bg-white lg:block" />}>
+          <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+        </Suspense>
         <main className="flex-1 p-4 lg:p-8">{children}</main>
       </div>
     </div>
